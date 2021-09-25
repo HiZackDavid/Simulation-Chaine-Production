@@ -4,7 +4,7 @@ public class Icone {
     private String type;
     private String path;
 
-    Icone(String type, String path) {
+    public Icone(String type, String path) {
         this.type = type;
         this.path = path;
     }
