@@ -4,12 +4,12 @@ import java.awt.Point;
 
 public abstract class Usine {
     private int id;
-    private TypeComposant type;
+    private TypeUsine type;
     private Icone icone;
     private Point position;
     private Chemin chemin;
 
-    Usine(int id, TypeComposant type, Icone icone, Point position, Chemin chemin) {
+    Usine(int id, TypeUsine type, Icone icone, Point position, Chemin chemin) {
         this.id = id;
         this.type = type;
         this.icone = icone;
@@ -25,11 +25,11 @@ public abstract class Usine {
         this.id = id;
     }
 
-    public TypeComposant getType() {
+    public TypeUsine getType() {
         return type;
     }
 
-    public void setType(TypeComposant type) {
+    public void setType(TypeUsine type) {
         this.type = type;
     }
 
