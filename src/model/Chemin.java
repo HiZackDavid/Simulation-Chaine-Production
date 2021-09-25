@@ -1,6 +1,6 @@
 package model;
 
 public class Chemin {
-    private int origine;
+    private int source;
     private int destination;
 }
