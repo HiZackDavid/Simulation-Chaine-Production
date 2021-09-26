@@ -24,7 +24,7 @@ public enum TypeUsine {
         switch (type) {
             case ASSEMBLAGE: return "usine-assemblage";
             case AILE: return "usine-aile";
-            case MOTEUR: return "usine-aile";
+            case MOTEUR: return "usine-moteur";
             case MATIERE: return "usine-matiere";
             case ENTREPOT: return "entrepot";
             default:
