@@ -1,19 +1,19 @@
 package model;
 
 public class Icone {
-    private String type;
+    private TypeIcone type;
     private String path;
 
-    public Icone(String type, String path) {
+    public Icone(TypeIcone type, String path) {
         this.type = type;
         this.path = path;
     }
 
-    public String getType() {
+    public TypeIcone getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeIcone type) {
         this.type = type;
     }
 
