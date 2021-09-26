@@ -1,9 +1,9 @@
 package model;
 
-public class Entree {
+public abstract class Entree {
     private String type;
 
-    Entree(String type){
+    public Entree(String type){
         this.type = type;
     }
 
