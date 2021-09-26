@@ -3,7 +3,7 @@ package model;
 public class Sortie {
     private String type;
 
-    Sortie(String type) {
+    public Sortie(String type) {
         this.type = type;
     }
 
