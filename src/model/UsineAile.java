@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class UsineAile extends UsineProduction {
-    UsineAile(int id, TypeUsine type, Icone icone, Point position, Chemin chemin, int quantite, int intervalleProduction) {
-        super(id, type, icone, position, chemin, quantite, intervalleProduction);
+    public UsineAile(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins, int intervalleProduction) {
+        super(id, type, icone, position, chemins, intervalleProduction);
     }
 }
