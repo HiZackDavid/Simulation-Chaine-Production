@@ -255,12 +255,4 @@ public class Configuration {
 
         return intervalle;
     }
-
-    public static void main(String[] args) {
-        Configuration configuration = new Configuration("src/ressources/configuration.xml");
-
-        for (Usine usine : configuration.getUsines()) {
-            System.out.println(usine.getPosition().y);
-        }
-    }
 }
