@@ -1,12 +1,10 @@
 package model;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Entrepot extends Usine{
-    private int capacite;
-
-    Entrepot(int id, TypeUsine type, Icone icone, Point position, Chemin chemin, int capacite) {
-        super(id, type, icone, position, chemin);
-        this.capacite = capacite;
+    public Entrepot(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins) {
+        super(id, type, icone, position, chemins);
     }
 }
