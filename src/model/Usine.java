@@ -1,20 +1,21 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public abstract class Usine {
     private int id;
     private TypeUsine type;
     private Icone icone;
     private Point position;
-    private Chemin chemin;
+    private ArrayList<Chemin> chemins;
 
-    Usine(int id, TypeUsine type, Icone icone, Point position, Chemin chemin) {
+    Usine(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins) {
         this.id = id;
         this.type = type;
         this.icone = icone;
         this.position = position;
-        this.chemin = chemin;
+        this.chemins = chemins;
     }
 
     public int getId() {
@@ -49,11 +50,11 @@ public abstract class Usine {
         this.position = position;
     }
 
-    public Chemin getChemin() {
-        return chemin;
+    public ArrayList<Chemin> getChemins() {
+        return chemins;
     }
 
-    public void setChemin(Chemin chemin) {
-        this.chemin = chemin;
+    public void addChemin(Chemin chemin) {
+        this.chemins.add(chemin);
     }
 }
