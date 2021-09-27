@@ -11,18 +11,13 @@ import javax.swing.*;
 public class PanneauPrincipal extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	// Variables temporaires de la demonstration:
-	private Point position = new Point(0,0);
-	private Point vitesse = new Point(1,1);
-	private int taille = 32;
-
 	public static final int USINE_WIDTH = 32;
 	public static final int USINE_HEIGTH = 30;
 
+	private Configuration configuration = new Configuration("src/ressources/configuration.xml");
+
 	@Override
 	public void paint(Graphics g) {
-		Configuration configuration = new Configuration("src/ressources/configuration.xml");
 		super.paint(g);
 		// On ajoute à la position le delta x et y de la vitesse
 		/*
@@ -30,7 +25,11 @@ public class PanneauPrincipal extends JPanel {
 		g.fillRect(position.x, position.y, taille, taille);
 		*/
 
-		// Dessiner chemins
+		drawChemins(g, configuration);
+		drawUsines(g, configuration);
+	}
+
+	private void drawChemins(Graphics g, Configuration configuration) {
 		for (Usine usine : configuration.getUsines()) {
 			int x = usine.getPosition().x;
 			int y = usine.getPosition().y;
@@ -50,15 +49,13 @@ public class PanneauPrincipal extends JPanel {
 				g.drawLine(x, y, xDestination, yDestination);
 			}
 		}
+	}
 
-		// Dessiner usines
+	private void drawUsines(Graphics g, Configuration configuration) {
 		for (Usine usine : configuration.getUsines()) {
 			String iconPath = usine.getIcone().getPath();
 			int x = usine.getPosition().x;
 			int y = usine.getPosition().y;
-
-			// Rectangles temp
-			//g.fillRect(x - USINE_WIDTH/2, y - USINE_HEIGTH/2, USINE_WIDTH, USINE_HEIGTH);
 
 			// Dessiner Icones
 			ImageIcon imageIcon = new ImageIcon(iconPath);
