@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 public class Configuration {
 
-    XMLReader xmlReader;
+    public static String FILE_PATH = "";
+    private XMLReader xmlReader;
 
-    public Configuration(String filePath) {
-        this.xmlReader = new XMLReader(filePath);
+    public Configuration() {
+        this.xmlReader = new XMLReader();
     }
 
     public ArrayList<Usine> showConfigurationFile() {

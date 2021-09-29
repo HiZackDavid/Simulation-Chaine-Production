@@ -1,6 +1,7 @@
 package simulation;
 
 import controller.Configuration;
+import controller.XMLReader;
 import model.Chemin;
 import model.Usine;
 
@@ -14,7 +15,7 @@ public class PanneauPrincipal extends JPanel {
 	public static final int USINE_WIDTH = 32;
 	public static final int USINE_HEIGTH = 30;
 
-	private Configuration configuration = new Configuration("src/ressources/configuration.xml");
+	private Configuration configuration;
 
 	@Override
 	public void paint(Graphics g) {
@@ -25,8 +26,12 @@ public class PanneauPrincipal extends JPanel {
 		g.fillRect(position.x, position.y, taille, taille);
 		*/
 
-		drawChemins(g, configuration);
-		drawUsines(g, configuration);
+		if (!XMLReader.FILE_PATH.isEmpty()) {
+			configuration = new Configuration();
+
+			drawChemins(g, configuration);
+			drawUsines(g, configuration);
+		}
 	}
 
 	private void drawChemins(Graphics g, Configuration configuration) {
