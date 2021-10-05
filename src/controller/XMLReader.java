@@ -23,30 +23,27 @@ import java.util.Map;
  * this context represents XML tags inside the files.
  */
 public class XMLReader {
-    private DocumentBuilderFactory dbf;
-    private DocumentBuilder db;
     private Document doc;
     public static String FILE_PATH = "";
-    private File xmlFile;
 
     public XMLReader() {
         // There is a path selected
         if (!FILE_PATH.isEmpty()) {
-            this.xmlFile = new File(FILE_PATH);
+            File xmlFile = new File(FILE_PATH);
 
             // File exists
-            if (this.xmlFile.exists()) {
+            if (xmlFile.exists()) {
                 // Instantiate the Factory
-                this.dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
                 try {
                     // optional, but recommended
                     // process XML securely, avoid attacks like XML External Entities (XXE)
-                    this.dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                    dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
                     // parse XML file
-                    this.db = this.dbf.newDocumentBuilder();
-                    this.doc = this.db.parse(this.xmlFile);
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    this.doc = db.parse(xmlFile);
 
                     // optional, but recommended
                     // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
@@ -59,21 +56,11 @@ public class XMLReader {
     }
 
     /**
-     * Returns the NodeList of a node according to the name of the node.
-     *
-     * @param nodeName The name of the Node. (Also known as the tag name in the XML file.)
-     * @return The NodeList of the node which has the same name as the provided node name.
-     */
-    public NodeList getNodeList(String nodeName) {
-        return this.doc.getElementsByTagName(nodeName);
-    }
-
-    /**
      * Return as list of nodes extracted from a source node according to the name of the node.
      *
-     * @param source The node from which the nodes must be extracted.
-     * @param nodeName The name of the node to be extracted. (Note that if multiple nodes have the same name inside
-     *                 the source node, they will all be returned.)
+     * @param source    The node from which the nodes must be extracted.
+     * @param nodeName  The name of the node to be extracted. (Note that if multiple nodes have the same name inside
+     *                  the source node, they will all be returned.)
      * @return The node or nodes extracted from the source node.
      */
     public ArrayList<Node> getNodesFromSource(Node source, String nodeName) {
@@ -103,13 +90,14 @@ public class XMLReader {
     /**
      * Return as list of nodes extracted from a source node according to the name of the node.
      *
-     * @param source
-     * @param nodeName
-     * @return
+     * @param sourceName    The name of the node from which the nodes must be extracted.
+     * @param nodeName      The name of the node to be extracted. (Note that if multiple nodes have the same name inside
+     *                      the source node, they will all be returned.)
+     * @return The node or nodes extracted from the source node.
      */
-    public ArrayList<Node> getNodesFromSource(String source, String nodeName) {
+    public ArrayList<Node> getNodesFromSource(String sourceName, String nodeName) {
         ArrayList<Node> nodes = new ArrayList<>();
-        NodeList nodeList = this.doc.getElementsByTagName(source);
+        NodeList nodeList = this.doc.getElementsByTagName(sourceName);
 
         for (int sourceIndex = 0; sourceIndex < nodeList.getLength(); sourceIndex++) {
             Node node = nodeList.item(sourceIndex);
@@ -135,6 +123,12 @@ public class XMLReader {
         return nodes;
     }
 
+    /**
+     * Returns a list of attributes belonging to a node.
+     *
+     * @param node The node from which the attributes will be searched.
+     * @return The list of attributes belonging to a node.
+     */
     public Map<String, String> getNodeAttributes(Node node) {
         Map<String, String> attributes = new HashMap<>();
 
