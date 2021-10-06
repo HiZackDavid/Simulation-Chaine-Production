@@ -1,115 +1,43 @@
 package controller;
 
-import model.*;
+import model.Usine;
+import model.TypeUsine;
+import model.Icone;
+import model.Chemin;
+import model.Entree;
+import model.Sortie;
+import model.TypeIcone;
+import model.UsineMatiere;
+import model.UsineAile;
+import model.UsineMoteur;
+import model.UsineAssemblage;
+import model.Entrepot;
+import model.EntreeEntrepot;
+import model.EntreeProduction;
 import org.w3c.dom.Node;
-
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class Configuration {
-
-    public static String FILE_PATH = "";
-    private XMLReader xmlReader;
+    private final XMLReader xmlReader;
 
     public Configuration() {
         this.xmlReader = new XMLReader();
     }
 
-    public ArrayList<Usine> showConfigurationFile() {
-        ArrayList<Usine> usines = new ArrayList<>();
-
-        // Récupérer les usines dans la simulation
-        System.out.println("--------------------------USINES----------------------------");
-        for (Node usine : this.xmlReader.getNodesFromSource("simulation", "usine")) {
-            System.out.println("id : " + this.xmlReader.getNodeAttributes(usine).get("id") + "\ttype: " +  this.xmlReader.getNodeAttributes(usine).get("type") + "\tx: " + this.xmlReader.getNodeAttributes(usine).get("x") + "\ty: " + this.xmlReader.getNodeAttributes(usine).get("y"));
-        }
-
-        // Récuperer les chemins dans la simulation
-        System.out.println("--------------------------CHEMINS----------------------------");
-        for (Node chemin : this.xmlReader.getNodesFromSource("simulation", "chemin")) {
-            System.out.println("source : " + this.xmlReader.getNodeAttributes(chemin).get("de") + "\tvers: " +  this.xmlReader.getNodeAttributes(chemin).get("vers"));
-        }
-
-        // Récupérer la metadonnée des usines
-        System.out.println("--------------------------USINES | METADATA----------------------------");
-        for (Node usine : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
-            System.out.println("type : " + this.xmlReader.getNodeAttributes(usine).get("type"));
-            String type = this.xmlReader.getNodeAttributes(usine).get("type");
-
-            switch (type) {
-                case "usine-matiere" :
-                    // Récupérer les icônes
-                    System.out.println("\t--------------------------ICONE----------------------------");
-                    for (Node icone : this.xmlReader.getNodesFromSource(usine, "icone")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(icone).get("type") + "\tpath : " + this.xmlReader.getNodeAttributes(icone).get("path"));
-                    }
-
-                    // Récupérer sortie
-                    System.out.println("\t--------------------------SORTIE----------------------------");
-                    for (Node sortie : this.xmlReader.getNodesFromSource(usine, "sortie")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(sortie).get("type"));
-                    }
-
-                    // Récupérer intervalle
-                    System.out.println("\t--------------------------INTERVALLE----------------------------");
-                    for (Node intervalle : this.xmlReader.getNodesFromSource(usine, "interval-production")) {
-                        System.out.println("\tintervalle : " + intervalle.getTextContent());
-                    }
-                    break;
-                case "usine-aile" :
-                case "usine-moteur" :
-                case "usine-assemblage" :
-                    // Récupérer les icônes
-                    System.out.println("\t--------------------------ICONE----------------------------");
-                    for (Node icone : this.xmlReader.getNodesFromSource(usine, "icone")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(icone).get("type") + "\tpath : " + this.xmlReader.getNodeAttributes(icone).get("path"));
-                    }
-
-                    // Récupérer entrée
-                    System.out.println("\t--------------------------ENTREE----------------------------");
-                    for (Node entree : this.xmlReader.getNodesFromSource(usine, "entree")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(entree).get("type") + "\tquantite : " + this.xmlReader.getNodeAttributes(entree).get("quantite"));
-                    }
-
-                    // Récupérer sortie
-                    System.out.println("\t--------------------------SORTIE----------------------------");
-                    for (Node sortie : this.xmlReader.getNodesFromSource(usine, "sortie")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(sortie).get("type"));
-                    }
-
-                    // Récupérer intervalle
-                    System.out.println("\t--------------------------INTERVALLE----------------------------");
-                    for (Node intervalle : this.xmlReader.getNodesFromSource(usine, "interval-production")) {
-                        System.out.println("\tintervalle : " + intervalle.getTextContent());
-                    }
-                    break;
-                case "entrepot" :
-                    // Récupérer les icônes
-                    System.out.println("\t--------------------------ICONE----------------------------");
-                    for (Node icone : this.xmlReader.getNodesFromSource(usine, "icone")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(icone).get("type") + "\tpath : " + this.xmlReader.getNodeAttributes(icone).get("path"));
-                    }
-
-                    // Récupérer entrée
-                    System.out.println("\t--------------------------ENTREE----------------------------");
-                    for (Node entree : this.xmlReader.getNodesFromSource(usine, "entree")) {
-                        System.out.println("\ttype : " + this.xmlReader.getNodeAttributes(entree).get("type") + "\tquantite : " + this.xmlReader.getNodeAttributes(entree).get("quantite"));
-                    }
-                    break;
-            }
-        }
-
-        return usines;
-    }
-
+    /**
+     * Returns a list of "Usines" from the configurationFile.
+     *
+     * @return A list of "Usines" from the configurationFile.
+     */
     public ArrayList<Usine> getUsines() {
         ArrayList<Usine> usines = new ArrayList<>();
 
-        int id = -1;
-        TypeUsine type = null;
-        Icone icone = null;
-        Point position = null;
-        ArrayList<Chemin> chemins = null;
+        int id;
+        TypeUsine type;
+        Icone icone;
+        Point position;
+        ArrayList<Chemin> chemins;
         ArrayList<Entree> entrees = null;
         Sortie sortie = null;
         int intervalle = -1;
@@ -121,47 +49,47 @@ public class Configuration {
 
             int x = Integer.parseInt(this.xmlReader.getNodeAttributes(usineSimulation).get("x"));
             int y = Integer.parseInt(this.xmlReader.getNodeAttributes(usineSimulation).get("y"));
-            position = new Point(x, y);
 
+            position = new Point(x, y);
             chemins = getChemins(id);
 
             // Récupérer la metadonnée des usines
             for (Node usineMetadata : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
-                icone = getIcone(type, TypeIcone.VIDE);
                 entrees = getEntree(type);
                 sortie = getSortie(usineMetadata);
                 intervalle = getIntervalle(usineMetadata);
             }
 
-            switch (type) {
-                case MATIERE:
-                    usines.add(new UsineMatiere(id, type, icone, position, chemins, intervalle));
-                    break;
-                case AILE:
-                    usines.add(new UsineAile(id, type, icone, position, chemins, intervalle));
-                    break;
-                case MOTEUR:
-                    usines.add(new UsineMoteur(id, type, icone, position, chemins, intervalle));
-                    break;
-                case ASSEMBLAGE:
-                    usines.add(new UsineAssemblage(id, type, icone, position, chemins, intervalle));
-                    break;
-                case ENTREPOT:
-                    usines.add(new Entrepot(id, type, icone, position, chemins));
-                    break;
+            // Instancier des Usines selon leur type
+            if (type != null) {
+                icone = getIcone(type, TypeIcone.VIDE); // Icone vide des usines
+
+                switch (type) {
+                    case MATIERE -> usines.add(new UsineMatiere(id, type, icone, position, chemins, intervalle));
+                    case AILE -> usines.add(new UsineAile(id, type, icone, position, chemins, intervalle));
+                    case MOTEUR -> usines.add(new UsineMoteur(id, type, icone, position, chemins, intervalle));
+                    case ASSEMBLAGE -> usines.add(new UsineAssemblage(id, type, icone, position, chemins, intervalle));
+                    case ENTREPOT -> usines.add(new Entrepot(id, type, icone, position, chemins));
+                }
             }
         }
 
         return usines;
     }
 
-    public ArrayList<Chemin> getChemins(int idUsine) {
+    /**
+     * Returns a list of "Chemin" where the provided "usineID" is the "source".
+     *
+     * @param usineID The "id" of the "Usine".
+     * @return A list of "Chemin" where the provided "usineID" is the "source".
+     */
+    public ArrayList<Chemin> getChemins(int usineID) {
         ArrayList<Chemin> chemins = new ArrayList<>();
 
         for (Node chemin : this.xmlReader.getNodesFromSource("simulation", "chemin")) {
             int source = Integer.parseInt(this.xmlReader.getNodeAttributes(chemin).get("de"));
 
-            if (source == idUsine) {
+            if (source == usineID) {
                 int destination = Integer.parseInt(this.xmlReader.getNodeAttributes(chemin).get("vers"));
 
                 chemins.add(new Chemin(source, destination));
@@ -171,6 +99,13 @@ public class Configuration {
         return chemins;
     }
 
+    /**
+     * Returns an icon based on the provided type of "Usine" and type of "Icon".
+     *
+     * @param usineType The type of "Usine".
+     * @param iconeType The type of "Icon"
+     * @return An icon based on the provided type of "Usine" and type of "Icon".
+     */
     public Icone getIcone(TypeUsine usineType, TypeIcone iconeType) {
         Icone icone = null;
 
@@ -194,6 +129,12 @@ public class Configuration {
         return icone;
     }
 
+    /**
+     * Returns the "Sortie" of an "Usine".
+     *
+     * @param usineNode The "Usine" node.
+     * @return The "Sortie" of an "Usine".
+     */
     public Sortie getSortie(Node usineNode) {
         Sortie sortie = null;
 
@@ -206,6 +147,12 @@ public class Configuration {
         return sortie;
     }
 
+    /**
+     * Returns the list of "Entree" according to a type of "Usine".
+     *
+     * @param typeUsine The type of "Usine".
+     * @return The list of "Entree" according to a type of "Usine".
+     */
     public ArrayList<Entree> getEntree(TypeUsine typeUsine) {
         ArrayList<Entree> entrees = new ArrayList<>();
 
@@ -214,7 +161,7 @@ public class Configuration {
             String metadataUsineType = this.xmlReader.getNodeAttributes(usineNode).get("type");
 
             if (metadataUsineType.equals(TypeUsine.getType(typeUsine))) {
-                // Récupérer sortie
+                // Récupérer entree
                 for (Node entreeNode : this.xmlReader.getNodesFromSource(usineNode, "entree")) {
                     String type = this.xmlReader.getNodeAttributes(entreeNode).get("type");
 
@@ -232,20 +179,12 @@ public class Configuration {
         return entrees;
     }
 
-    public ArrayList<Entree> getEntreeEntrepot(Node usineNode) {
-        ArrayList<Entree> entrees = new ArrayList<>();
-
-        // Récupérer sortie
-        for (Node entreeNode : this.xmlReader.getNodesFromSource(usineNode, "entree")) {
-            String type = this.xmlReader.getNodeAttributes(entreeNode).get("type");
-            int capacite = Integer.parseInt(this.xmlReader.getNodeAttributes(entreeNode).get("capacite"));
-
-            entrees.add(new EntreeEntrepot(type, capacite));
-        }
-
-        return entrees;
-    }
-
+    /**
+     * Returns the interval of an "Usine".
+     *
+     * @param usineMetadata
+     * @return The interval of an "Usine".
+     */
     private int getIntervalle(Node usineMetadata) {
         int intervalle = -1;
 
