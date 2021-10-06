@@ -41,6 +41,7 @@ public class MenuFenetre extends JMenuBar {
 
 		menuCharger.addActionListener((ActionEvent e) -> {
 			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			fileChooser.setCurrentDirectory(new File("src")); // Default FileChooser Directory
 			fileChooser.setDialogTitle("Sélectionnez un fichier de configuration");
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			// Créer un filtre
