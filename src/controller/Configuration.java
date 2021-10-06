@@ -83,7 +83,7 @@ public class Configuration {
      * @param usineID The "id" of the "Usine".
      * @return A list of "Chemin" where the provided "usineID" is the "source".
      */
-    public ArrayList<Chemin> getChemins(int usineID) {
+    private ArrayList<Chemin> getChemins(int usineID) {
         ArrayList<Chemin> chemins = new ArrayList<>();
 
         for (Node chemin : this.xmlReader.getNodesFromSource("simulation", "chemin")) {
@@ -106,7 +106,7 @@ public class Configuration {
      * @param iconeType The type of "Icon"
      * @return An icon based on the provided type of "Usine" and type of "Icon".
      */
-    public Icone getIcone(TypeUsine usineType, TypeIcone iconeType) {
+    private Icone getIcone(TypeUsine usineType, TypeIcone iconeType) {
         Icone icone = null;
 
         // Récupérer les usines dans la metadonnee
@@ -135,7 +135,7 @@ public class Configuration {
      * @param usineNode The "Usine" node.
      * @return The "Sortie" of an "Usine".
      */
-    public Sortie getSortie(Node usineNode) {
+    private Sortie getSortie(Node usineNode) {
         Sortie sortie = null;
 
         // Récupérer sortie
@@ -153,7 +153,7 @@ public class Configuration {
      * @param typeUsine The type of "Usine".
      * @return The list of "Entree" according to a type of "Usine".
      */
-    public ArrayList<Entree> getEntree(TypeUsine typeUsine) {
+    private ArrayList<Entree> getEntree(TypeUsine typeUsine) {
         ArrayList<Entree> entrees = new ArrayList<>();
 
         // Récupérer les usines dans la metadonnee
