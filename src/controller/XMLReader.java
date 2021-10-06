@@ -21,6 +21,8 @@ import java.util.Map;
 /**
  * This class is tasked of reading files of XML extension. It also provides utility functions to browse Nodes which in
  * this context represents XML tags inside the files.
+ *
+ * Inspired by : https://mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
  */
 public class XMLReader {
     private Document doc;
