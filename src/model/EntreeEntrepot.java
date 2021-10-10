@@ -3,7 +3,7 @@ package model;
 public class EntreeEntrepot extends Entree {
     int capacite;
 
-    public EntreeEntrepot(String type, int capacite) {
+    public EntreeEntrepot(TypeComposant type, int capacite) {
         super(type);
         this.capacite = capacite;
     }

@@ -1,12 +1,22 @@
 package model;
 
 public class Composant {
+    TypeComposant typeComposant;
     private int x;
     private int y;
 
-    public Composant(int x, int y) {
+    public Composant(TypeComposant typeComposant, int x, int y) {
+        this.typeComposant = typeComposant;
         this.x = x;
         this.y = y;
+    }
+
+    public TypeComposant getTypeComposant() {
+        return typeComposant;
+    }
+
+    public void setTypeComposant(TypeComposant typeComposant) {
+        this.typeComposant = typeComposant;
     }
 
     public int getX() {

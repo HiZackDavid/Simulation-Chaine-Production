@@ -1,17 +1,17 @@
 package model;
 
 public abstract class Entree {
-    private String type;
+    private TypeComposant type;
 
-    public Entree(String type){
+    public Entree(TypeComposant type) {
         this.type = type;
     }
 
-    public String getType() {
+    public TypeComposant getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeComposant type) {
         this.type = type;
     }
 }

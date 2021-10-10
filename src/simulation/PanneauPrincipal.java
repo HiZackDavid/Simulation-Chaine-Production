@@ -3,19 +3,20 @@ package simulation;
 import controller.Configuration;
 import controller.XMLReader;
 import model.Chemin;
+import model.Sortie;
 import model.Usine;
-
-import java.awt.*;
+import model.UsineProduction;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.Serial;
 
 public class PanneauPrincipal extends JPanel {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	public static final int USINE_WIDTH = 32;
 	public static final int USINE_HEIGTH = 30;
-
-	private Configuration configuration;
 
 	@Override
 	public void paint(Graphics g) {
@@ -27,10 +28,11 @@ public class PanneauPrincipal extends JPanel {
 		*/
 
 		if (!XMLReader.FILE_PATH.isEmpty()) {
-			configuration = new Configuration();
+			Configuration configuration = new Configuration();
 
 			drawChemins(g, configuration);
 			drawUsines(g, configuration);
+			drawComponent(g, configuration);
 		}
 	}
 
@@ -48,10 +50,12 @@ public class PanneauPrincipal extends JPanel {
 					}
 				}
 
-				int xDestination = destination.getPosition().x;
-				int yDestination = destination.getPosition().y;
+				if (destination != null) {
+					int xDestination = destination.getPosition().x;
+					int yDestination = destination.getPosition().y;
 
-				g.drawLine(x, y, xDestination, yDestination);
+					g.drawLine(x, y, xDestination, yDestination);
+				}
 			}
 		}
 	}
@@ -69,6 +73,27 @@ public class PanneauPrincipal extends JPanel {
 			ImageIcon icon = new ImageIcon(resizedImage);
 
 			icon.paintIcon(this, g, x - USINE_WIDTH/2, y - USINE_HEIGTH/2);
+		}
+	}
+
+	private void drawComponent(Graphics g, Configuration configuration) {
+		// Pour toutes les usines
+		for (Usine usine : configuration.getUsines()) {
+			// Si c'est une usine de production
+			if (usine instanceof UsineProduction usineProduction) {
+				// Position de départ du composant
+				int x = usineProduction.getPosition().x;
+				int y = usineProduction.getPosition().y;
+
+				for (Sortie sortie: usineProduction.getSorties()) {
+					ImageIcon imageIcon = new ImageIcon("src/ressources/" + sortie.getType() + ".png");
+					Image image = imageIcon.getImage();
+					Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
+					ImageIcon icon = new ImageIcon(resizedImage);
+
+					icon.paintIcon(this, g, x - USINE_WIDTH/2, y - USINE_HEIGTH/2);
+				}
+			}
 		}
 	}
 }

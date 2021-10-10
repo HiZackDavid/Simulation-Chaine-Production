@@ -9,13 +9,17 @@ public abstract class Usine {
     private Icone icone;
     private Point position;
     private ArrayList<Chemin> chemins;
+    private ArrayList<Entree> entrees;
+    private ArrayList<Sortie> sorties;
 
-    Usine(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins) {
+    public Usine(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins, ArrayList<Entree> entrees, ArrayList<Sortie> sorties) {
         this.id = id;
         this.type = type;
         this.icone = icone;
         this.position = position;
         this.chemins = chemins;
+        this.entrees = entrees;
+        this.sorties = sorties;
     }
 
     public int getId() {
@@ -54,7 +58,23 @@ public abstract class Usine {
         return chemins;
     }
 
-    public void addChemin(Chemin chemin) {
-        this.chemins.add(chemin);
+    public void setChemins(ArrayList<Chemin> chemins) {
+        this.chemins = chemins;
+    }
+
+    public ArrayList<Entree> getEntrees() {
+        return entrees;
+    }
+
+    public void setEntrees(ArrayList<Entree> entrees) {
+        this.entrees = entrees;
+    }
+
+    public ArrayList<Sortie> getSorties() {
+        return sorties;
+    }
+
+    public void setSorties(ArrayList<Sortie> sorties) {
+        this.sorties = sorties;
     }
 }
