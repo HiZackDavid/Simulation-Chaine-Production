@@ -2,10 +2,7 @@ package simulation;
 
 import controller.Configuration;
 import controller.XMLReader;
-import model.Chemin;
-import model.Sortie;
-import model.Usine;
-import model.UsineProduction;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +14,17 @@ public class PanneauPrincipal extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public static final int USINE_WIDTH = 32;
 	public static final int USINE_HEIGTH = 30;
+	public static final Point VITESSE = new Point(1,1);
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		// On ajoute à la position le delta x et y de la vitesse
+
 		/*
+		Point position = new Point(0,0);
+		Point vitesse = new Point(1,1);
+		int taille = 32;
 		position.translate(vitesse.x, vitesse.y);
 		g.fillRect(position.x, position.y, taille, taille);
 		*/
@@ -82,17 +84,43 @@ public class PanneauPrincipal extends JPanel {
 			// Si c'est une usine de production
 			if (usine instanceof UsineProduction usineProduction) {
 				// Position de départ du composant
-				int x = usineProduction.getPosition().x;
-				int y = usineProduction.getPosition().y;
+				// int x = usineProduction.getPosition().x;
+				// int y = usineProduction.getPosition().y;
 
-				for (Sortie sortie: usineProduction.getSorties()) {
+				// On ajoute les composants dans le chemin
+				for (Chemin chemin : usine.getChemins()) {
+					if (chemin.getComposants().size() < 1) {
+						chemin.addComposant(usineProduction.produce());
+					}
+				}
+
+				for (Chemin chemin : usine.getChemins()) {
+					// Afficher composants
+					for (Composant composant : chemin.getComposants()) {
+						ImageIcon imageIcon = new ImageIcon("src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png");
+						Image image = imageIcon.getImage();
+						Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
+						ImageIcon icon = new ImageIcon(resizedImage);
+
+						icon.paintIcon(this, g, composant.getPosition().x - USINE_WIDTH/2, composant.getPosition().y - USINE_HEIGTH/2);
+					}
+
+					// Bouger composants
+					// chemin.moveComposants(configuration, VITESSE);
+				}
+
+				/*for (Sortie sortie: usineProduction.getSorties()) {
+					// On produit un composant et on l'ajoute au chemin
+
+
+					// On affiche le composant
 					ImageIcon imageIcon = new ImageIcon("src/ressources/" + sortie.getType() + ".png");
 					Image image = imageIcon.getImage();
 					Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
 					ImageIcon icon = new ImageIcon(resizedImage);
 
 					icon.paintIcon(this, g, x - USINE_WIDTH/2, y - USINE_HEIGTH/2);
-				}
+				}*/
 			}
 		}
 	}

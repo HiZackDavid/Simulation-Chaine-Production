@@ -1,14 +1,14 @@
 package model;
 
-public class Composant {
-    TypeComposant typeComposant;
-    private int x;
-    private int y;
+import java.awt.Point;
 
-    public Composant(TypeComposant typeComposant, int x, int y) {
+public class Composant {
+    private TypeComposant typeComposant;
+    private Point position;
+
+    public Composant(TypeComposant typeComposant, Point position) {
         this.typeComposant = typeComposant;
-        this.x = x;
-        this.y = y;
+        this.position = position;
     }
 
     public TypeComposant getTypeComposant() {
@@ -19,19 +19,11 @@ public class Composant {
         this.typeComposant = typeComposant;
     }
 
-    public int getX() {
-        return x;
+    public Point getPosition() {
+        return position;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void setPosition(Point position) {
+        this.position = position;
     }
 }
