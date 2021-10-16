@@ -1,13 +1,13 @@
 package controller;
 
-// Pour construire un DOM à partir du fichier XML
+// Pour construire un DOM Ã  partir du fichier XML
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-// Pour les exceptions levées lors de la lecture du fichier XML
+// Pour les exceptions levÃ©es lors de la lecture du fichier XML
 import org.xml.sax.SAXException;
-// Pour les définitions W3C du DOM et de son contenu
+// Pour les dÃ©finitions W3C du DOM et de son contenu
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;

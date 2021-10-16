@@ -55,29 +55,63 @@ public class Chemin {
         }
 
         if (usineSource != null && usineDestination != null) {
-            // DÈplacer les composants ‡ la destination
+            // Point de d√©part
+            double x1 = usineSource.getPosition().getX();
+            double y1 = usineSource.getPosition().getY();
+            // Point de destination
+            double x2 = usineDestination.getPosition().getX();
+            double y2 = usineDestination.getPosition().getY();
+
+            double m = (y2-y1)/(x2-x1); // Pente de la fonction affine
+            double b = y2 - m * x2; // Ordonn√©e √† l'origine
+
+            // D√©placer les composants √† la destination
             for (Composant composant : this.composants) {
-                // Point de dÈpart
-                double x1 = usineSource.getPosition().getX();
-                double y1 = usineSource.getPosition().getY();
-                // Point de destination
-                double x2 = usineDestination.getPosition().getX();
-                double y2 = usineDestination.getPosition().getY();
-
-                double m = (y2-y1)/(x2-x1); // Pente de la fonction affine
-                double b = y2 - m * x2; // OrdonnÈe ‡ l'origine
-
+                // Point du composant
                 double x = composant.getPosition().getX(); // La position x dans laquelle j'aimerais que mon composant se trouve
-
                 if (x2 > x1) {
                     x += vitesse.getX();
                 } else {
-                    x -= vitesse.getY();
+                    x -= vitesse.getX();
                 }
 
                 double y = m * x + b; // F(x)=mx+b
 
                 composant.getPosition().setLocation(x, y);
+            }
+
+            // Faire dipara√Ætre les composants lorsqu'ils sont arriv√©s √† destination
+            for (int index=0; index < this.composants.size(); index++) { // On parcoure chacun des composants
+                boolean hasReachedX = false;
+                boolean hasReachedY = false;
+
+                if (this.composants.get(index).getPosition().getY() != x2) {
+                    if (x1 > x2) {
+                        hasReachedX = this.composants.get(index).getPosition().getX() <= x2;
+                    }
+
+                    if (x1 < x2) {
+                        hasReachedX = this.composants.get(index).getPosition().getX() >= x2;
+                    }
+                } else {
+                    hasReachedX = true;
+                }
+
+                if (this.composants.get(index).getPosition().getY() != y2) {
+                    if (y1 > y2) {
+                        hasReachedY = this.composants.get(index).getPosition().getY() <= y2;
+                    }
+
+                    if (y1 < y2) {
+                        hasReachedY = this.composants.get(index).getPosition().getY() >= y2;
+                    }
+                } else {
+                    hasReachedY = true;
+                }
+
+                if (hasReachedX && hasReachedY) {
+                    this.composants.remove(this.composants.get(index));
+                }
             }
         }
     }

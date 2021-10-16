@@ -11,5 +11,25 @@ public abstract class UsineProduction extends Usine {
         this.intervalleProduction = intervalleProduction;
     }
 
+    public boolean canProduce() {
+        boolean canProduce = true; // On assume qu'un usine peut produire
+
+        // Dans le cas où une usine a plusieurs entrées.
+        if (getEntrees().size() > 0) {
+            // On parcoure chacune des entrées de l'usine
+            for (Entree entree : getEntrees()) {
+                /*
+                 Si au moins l'une d'entre elles n'a pas atteint sa limite, ça veut dire qu'elle n'a pas le
+                 nécessaire pour produire.
+                 */
+                if (!entree.hasReachedLimit()) {
+                    canProduce = false;
+                };
+            }
+        }
+
+        return canProduce;
+    }
+
     public abstract Composant produce();
 }

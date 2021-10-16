@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public abstract class Usine {
+    public static final int WIDTH = 32;
+    public static final int HEIGTH = 30;
+
     private int id;
     private TypeUsine type;
     private Icone icone;

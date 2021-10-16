@@ -39,7 +39,7 @@ public class Configuration {
         ArrayList<Sortie> sorties = null;
         int intervalle = -1;
 
-        // Récupérer les usines dans la simulation
+        // RÃ©cupÃ©rer les usines dans la simulation
         for (Node usineSimulation : this.xmlReader.getNodesFromSource("simulation", "usine")) {
             id = Integer.parseInt(this.xmlReader.getNodeAttributes(usineSimulation).get("id"));
             type = TypeUsine.getType(this.xmlReader.getNodeAttributes(usineSimulation).get("type"));
@@ -50,7 +50,7 @@ public class Configuration {
             position = new Point(x, y);
             chemins = getChemins(id);
 
-            // Récupérer la metadonnée des usines
+            // RÃ©cupÃ©rer la metadonnÃ©e des usines
             for (Node usineMetadata : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
                 entrees = getEntrees(type);
                 sorties = getSorties(type);
@@ -105,11 +105,11 @@ public class Configuration {
     private Icone getIcone(TypeUsine usineType) {
         Icone icone = null;
 
-        // Récupérer les usines dans la metadonnee
+        // RÃ©cupÃ©rer les usines dans la metadonnee
         for (Node usineNode : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
             String metadataUsineType = this.xmlReader.getNodeAttributes(usineNode).get("type");
             if (metadataUsineType.equals(TypeUsine.getType(usineType))) {
-                // Récupérer l'icône correspondant au type d'icône cherché
+                // RÃ©cupÃ©rer l'icÃ´ne correspondant au type d'icÃ´ne cherchÃ©
                 for (Node iconeNode : this.xmlReader.getNodesFromSource(usineNode, "icone")) {
                     String metadataIconeType = this.xmlReader.getNodeAttributes(iconeNode).get("type");
 
@@ -134,14 +134,14 @@ public class Configuration {
     private ArrayList<Sortie> getSorties(TypeUsine typeUsine) {
         ArrayList<Sortie> sorties = new ArrayList<>();
 
-        // Récupérer les usines dans la metadonnee
+        // RÃ©cupÃ©rer les usines dans la metadonnee
         for (Node usineNode : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
             String metadataUsineType = this.xmlReader.getNodeAttributes(usineNode).get("type");
 
             if (metadataUsineType.equals(TypeUsine.getType(typeUsine))) {
-                // Récupérer les sorties
+                // RÃ©cupÃ©rer les sorties
                 for (Node sortieNode : this.xmlReader.getNodesFromSource(usineNode, "sortie")) {
-                    // Si ce n'est pas un entrepot, il possède une sortie
+                    // Si ce n'est pas un entrepot, il possÃ¨de une sortie
                     if (!typeUsine.equals(TypeUsine.ENTREPOT)) {
                         String type = this.xmlReader.getNodeAttributes(sortieNode).get("type");
                         sorties.add(new Sortie(TypeComposant.getType(type)));
@@ -162,21 +162,21 @@ public class Configuration {
     private ArrayList<Entree> getEntrees(TypeUsine typeUsine) {
         ArrayList<Entree> entrees = new ArrayList<>();
 
-        // Récupérer les usines dans la metadonnee
+        // RÃ©cupÃ©rer les usines dans la metadonnee
         for (Node usineNode : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
             String metadataUsineType = this.xmlReader.getNodeAttributes(usineNode).get("type");
 
             if (metadataUsineType.equals(TypeUsine.getType(typeUsine))) {
-                // Récupérer les entrees
+                // RÃ©cupÃ©rer les entrees
                 for (Node entreeNode : this.xmlReader.getNodesFromSource(usineNode, "entree")) {
                     String type = this.xmlReader.getNodeAttributes(entreeNode).get("type");
 
                     if (typeUsine.equals(TypeUsine.ENTREPOT)) {
                         int capacite = Integer.parseInt(this.xmlReader.getNodeAttributes(entreeNode).get("capacite"));
-                        entrees.add(new EntreeEntrepot(TypeComposant.getType(type), capacite));
+                        entrees.add(new Entree(TypeComposant.getType(type), capacite));
                     } else {
                         int quantite = Integer.parseInt(this.xmlReader.getNodeAttributes(entreeNode).get("quantite"));
-                        entrees.add(new EntreeProduction(TypeComposant.getType(type), quantite));
+                        entrees.add(new Entree(TypeComposant.getType(type), quantite));
                     }
                 }
             }
@@ -194,7 +194,7 @@ public class Configuration {
     private int getIntervalle(Node usineMetadata) {
         int intervalle = -1;
 
-        // Récupérer intervalle
+        // RÃ©cupÃ©rer intervalle
         for (Node intervalleNode : this.xmlReader.getNodesFromSource(usineMetadata, "interval-production")) {
             intervalle = Integer.parseInt(intervalleNode.getTextContent());
         }

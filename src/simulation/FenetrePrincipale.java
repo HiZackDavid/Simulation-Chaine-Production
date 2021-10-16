@@ -18,15 +18,15 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 		MenuFenetre menuFenetre = new MenuFenetre();
 		add(panneauPrincipal);
 		add(menuFenetre, BorderLayout.NORTH);
-		// Faire en sorte que le X de la fenêtre ferme la fenêtre
+		// Faire en sorte que le X de la fenÃªtre ferme la fenÃªtre
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle(TITRE_FENETRE);
 		setSize(DIMENSION);
-		// Rendre la fenêtre visible
+		// Rendre la fenÃªtre visible
 		setVisible(true);
-		// Mettre la fenêtre au centre de l'écran
+		// Mettre la fenÃªtre au centre de l'Ã©cran
 		setLocationRelativeTo(null);
-		// Empêcher la redimension de la fenêtre
+		// EmpÃªcher la redimension de la fenÃªtre
 		setResizable(false);
 	}
 
