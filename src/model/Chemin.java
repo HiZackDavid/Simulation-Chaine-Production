@@ -41,17 +41,23 @@ public class Chemin {
     }
 
     public void moveComposants(Configuration configuration, Point vitesse) {
+        // Pour toutes les usines
         for (Usine usine : configuration.getUsines()) {
+            // S'il s'agit de la destination du chemin
             if (usine.getId() == destination) {
                 // Déplacer les composants à la destination
                 for (Composant composant : this.composants) {
-                    int pente = (usine.getPosition().y-composant.getPosition().y)/(usine.getPosition().x-composant.getPosition().x);
+                    /*
+                    int pente = (usine.getPosition().y - composant.getPosition().y) / (usine.getPosition().x - composant.getPosition().x);
+                    int xDestination = usine.getPosition().x;
+                    int yDestination = usine.getPosition().y;
 
+                    // F(x)=ax+b
                     int x = composant.getPosition().x + vitesse.x;
-                    int y = pente*vitesse.x + (usine.getPosition().y - pente*usine.getPosition().x);
+                    int y = pente * vitesse.x + (usine.getPosition().y - pente * usine.getPosition().x);
+                    */
 
-                    // composant.getPosition().translate(x, y);
-                    System.out.println(composant.getPosition());
+                    composant.getPosition().translate(vitesse.x, vitesse.y);
                 }
             }
         }

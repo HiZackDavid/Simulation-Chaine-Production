@@ -10,6 +10,6 @@ public class UsineMatiere extends UsineProduction{
 
     @Override
     public Composant produce() {
-        return new Composant(TypeComposant.METAL, getPosition());
+        return new Composant(TypeComposant.METAL, new Point(getPosition().x, getPosition().y));
     }
 }

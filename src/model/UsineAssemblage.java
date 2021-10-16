@@ -10,6 +10,6 @@ public class UsineAssemblage extends UsineProduction {
 
     @Override
     public Composant produce() {
-        return new Composant(TypeComposant.AVION, getPosition());
+        return new Composant(TypeComposant.AVION, new Point(getPosition().x, getPosition().y));
     }
 }

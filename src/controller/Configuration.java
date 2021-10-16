@@ -6,10 +6,19 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Configuration {
-    private final XMLReader xmlReader;
+    private XMLReader xmlReader;
+    private ArrayList<Usine> usines;
 
     public Configuration() {
-        this.xmlReader = new XMLReader();
+        this.usines = new ArrayList<>();
+    }
+
+    public ArrayList<Usine> getUsines() {
+        if (usines.size() == 0 && !XMLReader.FILE_PATH.isEmpty()) {
+            usines = readUsines();
+        }
+
+        return usines;
     }
 
     /**
@@ -17,7 +26,8 @@ public class Configuration {
      *
      * @return A list of "Usines" from the configurationFile.
      */
-    public ArrayList<Usine> getUsines() {
+    private ArrayList<Usine> readUsines() {
+        this.xmlReader = new XMLReader();
         ArrayList<Usine> usines = new ArrayList<>();
 
         int id;

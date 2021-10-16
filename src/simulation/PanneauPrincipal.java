@@ -15,26 +15,31 @@ public class PanneauPrincipal extends JPanel {
 	public static final int USINE_WIDTH = 32;
 	public static final int USINE_HEIGTH = 30;
 	public static final Point VITESSE = new Point(1,1);
+	private final Configuration configuration;
+
+	public PanneauPrincipal() {
+		configuration = new Configuration();
+	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		// On ajoute à la position le delta x et y de la vitesse
-
-		/*
-		Point position = new Point(0,0);
-		Point vitesse = new Point(1,1);
-		int taille = 32;
-		position.translate(vitesse.x, vitesse.y);
-		g.fillRect(position.x, position.y, taille, taille);
-		*/
 
 		if (!XMLReader.FILE_PATH.isEmpty()) {
-			Configuration configuration = new Configuration();
-
 			drawChemins(g, configuration);
 			drawUsines(g, configuration);
-			drawComponent(g, configuration);
+			drawComponents(g, configuration);
+		}
+	}
+
+	private void drawUsines(Graphics g, Configuration configuration) {
+		for (Usine usine : configuration.getUsines()) {
+			String iconPath = usine.getIcone().getPath();
+			int x = usine.getPosition().x;
+			int y = usine.getPosition().y;
+
+			// Dessiner Icones
+			showIcon(g, iconPath, usine.getPosition(), USINE_WIDTH, USINE_HEIGTH);
 		}
 	}
 
@@ -62,31 +67,11 @@ public class PanneauPrincipal extends JPanel {
 		}
 	}
 
-	private void drawUsines(Graphics g, Configuration configuration) {
-		for (Usine usine : configuration.getUsines()) {
-			String iconPath = usine.getIcone().getPath();
-			int x = usine.getPosition().x;
-			int y = usine.getPosition().y;
-
-			// Dessiner Icones
-			ImageIcon imageIcon = new ImageIcon(iconPath);
-			Image image = imageIcon.getImage();
-			Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
-			ImageIcon icon = new ImageIcon(resizedImage);
-
-			icon.paintIcon(this, g, x - USINE_WIDTH/2, y - USINE_HEIGTH/2);
-		}
-	}
-
-	private void drawComponent(Graphics g, Configuration configuration) {
+	private void drawComponents(Graphics g, Configuration configuration) {
 		// Pour toutes les usines
 		for (Usine usine : configuration.getUsines()) {
 			// Si c'est une usine de production
 			if (usine instanceof UsineProduction usineProduction) {
-				// Position de départ du composant
-				// int x = usineProduction.getPosition().x;
-				// int y = usineProduction.getPosition().y;
-
 				// On ajoute les composants dans le chemin
 				for (Chemin chemin : usine.getChemins()) {
 					if (chemin.getComposants().size() < 1) {
@@ -97,31 +82,23 @@ public class PanneauPrincipal extends JPanel {
 				for (Chemin chemin : usine.getChemins()) {
 					// Afficher composants
 					for (Composant composant : chemin.getComposants()) {
-						ImageIcon imageIcon = new ImageIcon("src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png");
-						Image image = imageIcon.getImage();
-						Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
-						ImageIcon icon = new ImageIcon(resizedImage);
-
-						icon.paintIcon(this, g, composant.getPosition().x - USINE_WIDTH/2, composant.getPosition().y - USINE_HEIGTH/2);
+						String iconPath = "src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png";
+						// Dessiner Icones
+						showIcon(g, iconPath, composant.getPosition(), USINE_WIDTH, USINE_HEIGTH);
 					}
 
-					// Bouger composants
-					// chemin.moveComposants(configuration, VITESSE);
+					chemin.moveComposants(configuration, VITESSE);
 				}
-
-				/*for (Sortie sortie: usineProduction.getSorties()) {
-					// On produit un composant et on l'ajoute au chemin
-
-
-					// On affiche le composant
-					ImageIcon imageIcon = new ImageIcon("src/ressources/" + sortie.getType() + ".png");
-					Image image = imageIcon.getImage();
-					Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
-					ImageIcon icon = new ImageIcon(resizedImage);
-
-					icon.paintIcon(this, g, x - USINE_WIDTH/2, y - USINE_HEIGTH/2);
-				}*/
 			}
 		}
+	}
+
+	private void showIcon(Graphics g, String iconPath, Point position, int width, int height) {
+		ImageIcon imageIcon = new ImageIcon(iconPath);
+		Image image = imageIcon.getImage();
+		Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
+		ImageIcon icon = new ImageIcon(resizedImage);
+
+		icon.paintIcon(this, g, position.x - USINE_WIDTH/2, position.y - USINE_HEIGTH/2);
 	}
 }

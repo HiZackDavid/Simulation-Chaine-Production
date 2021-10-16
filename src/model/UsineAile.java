@@ -10,6 +10,6 @@ public class UsineAile extends UsineProduction {
 
     @Override
     public Composant produce() {
-        return new Composant(TypeComposant.AILE, getPosition());
+        return new Composant(TypeComposant.AILE, new Point(getPosition().x, getPosition().y));
     }
 }
