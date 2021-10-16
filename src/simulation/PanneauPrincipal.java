@@ -96,9 +96,9 @@ public class PanneauPrincipal extends JPanel {
 	private void showIcon(Graphics g, String iconPath, Point position, int width, int height) {
 		ImageIcon imageIcon = new ImageIcon(iconPath);
 		Image image = imageIcon.getImage();
-		Image resizedImage = image.getScaledInstance(USINE_WIDTH, USINE_HEIGTH, Image.SCALE_SMOOTH);
+		Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		ImageIcon icon = new ImageIcon(resizedImage);
 
-		icon.paintIcon(this, g, position.x - USINE_WIDTH/2, position.y - USINE_HEIGTH/2);
+		icon.paintIcon(this, g, position.x - width/2, position.y - height/2);
 	}
 }

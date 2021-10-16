@@ -41,24 +41,43 @@ public class Chemin {
     }
 
     public void moveComposants(Configuration configuration, Point vitesse) {
-        // Pour toutes les usines
+        Usine usineSource = null;
+        Usine usineDestination = null;
+
         for (Usine usine : configuration.getUsines()) {
-            // S'il s'agit de la destination du chemin
-            if (usine.getId() == destination) {
-                // Déplacer les composants à la destination
-                for (Composant composant : this.composants) {
-                    /*
-                    int pente = (usine.getPosition().y - composant.getPosition().y) / (usine.getPosition().x - composant.getPosition().x);
-                    int xDestination = usine.getPosition().x;
-                    int yDestination = usine.getPosition().y;
+            if (usine.getId() == this.source) {
+                usineSource = usine;
+            }
 
-                    // F(x)=ax+b
-                    int x = composant.getPosition().x + vitesse.x;
-                    int y = pente * vitesse.x + (usine.getPosition().y - pente * usine.getPosition().x);
-                    */
+            if (usine.getId() == this.destination) {
+                usineDestination = usine;
+            }
+        }
 
-                    composant.getPosition().translate(vitesse.x, vitesse.y);
+        if (usineSource != null && usineDestination != null) {
+            // Déplacer les composants à la destination
+            for (Composant composant : this.composants) {
+                // Point de départ
+                double x1 = usineSource.getPosition().getX();
+                double y1 = usineSource.getPosition().getY();
+                // Point de destination
+                double x2 = usineDestination.getPosition().getX();
+                double y2 = usineDestination.getPosition().getY();
+
+                double m = (y2-y1)/(x2-x1); // Pente de la fonction affine
+                double b = y2 - m * x2; // Ordonnée à l'origine
+
+                double x = composant.getPosition().getX(); // La position x dans laquelle j'aimerais que mon composant se trouve
+
+                if (x2 > x1) {
+                    x += vitesse.getX();
+                } else {
+                    x -= vitesse.getY();
                 }
+
+                double y = m * x + b; // F(x)=mx+b
+
+                composant.getPosition().setLocation(x, y);
             }
         }
     }
