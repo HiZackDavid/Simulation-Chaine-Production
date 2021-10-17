@@ -1,6 +1,7 @@
 package simulation;
 
 import javax.swing.SwingWorker;
+import java.util.TimerTask;
 
 public class Environnement extends SwingWorker<Object, String> {
 
@@ -18,5 +19,4 @@ public class Environnement extends SwingWorker<Object, String> {
 		}
 		return null;
 	}
-
 }

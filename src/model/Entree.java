@@ -2,12 +2,12 @@ package model;
 
 public class Entree {
     private TypeComposant type;
-    private int limite;
+    private int requiredAmount;
     private int compteur;
 
-    public Entree(TypeComposant type, int limite) {
+    public Entree(TypeComposant type, int requiredAmount) {
         this.type = type;
-        this.limite = limite;
+        this.requiredAmount = requiredAmount;
         this.compteur = 0;
     }
 
@@ -23,15 +23,11 @@ public class Entree {
         this.compteur++;
     }
 
-    public void resetCompteur() {
-        this.compteur = 0;
+    public void takeRequiredAmount() {
+        this.compteur -= requiredAmount;
     }
 
-    public boolean hasReachedLimit() {
-        return (compteur == limite);
-    }
-
-    public int getLimite() {
-        return limite;
+    public boolean hasReachedRequiredAmount() {
+        return (compteur >= requiredAmount);
     }
 }

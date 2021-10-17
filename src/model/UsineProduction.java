@@ -31,7 +31,7 @@ public abstract class UsineProduction extends Usine implements Observateur {
                  Si au moins l'une d'entre elles n'a pas atteint sa limite, ça veut dire qu'elle n'a pas le
                  nécessaire pour produire.
                  */
-                if (!entree.hasReachedLimit()) {
+                if (!entree.hasReachedRequiredAmount()) {
                     canProduce = false;
                 }
             }

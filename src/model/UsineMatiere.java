@@ -13,7 +13,7 @@ public class UsineMatiere extends UsineProduction{
         Composant composant = new Composant(TypeComposant.METAL, new Point(getPosition().x, getPosition().y));
 
         for (int index = 0; index < getEntrees().size(); index++) {
-            getEntrees().get(index).resetCompteur();
+            getEntrees().get(index).takeRequiredAmount();
         }
 
         return composant;
