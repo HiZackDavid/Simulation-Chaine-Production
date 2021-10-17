@@ -24,11 +24,17 @@ public abstract class UsineProduction extends Usine {
                  */
                 if (!entree.hasReachedLimit()) {
                     canProduce = false;
-                };
+                } else {
+                    entree.resetCompteur();
+                }
             }
         }
 
         return canProduce;
+    }
+
+    public int getIntervalleProduction() {
+        return intervalleProduction;
     }
 
     public abstract Composant produce();

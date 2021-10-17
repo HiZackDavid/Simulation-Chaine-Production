@@ -20,10 +20,6 @@ public class Entree {
     }
 
     public void incrementCompteur() {
-        if (compteur == limite) {
-            compteur = 0;
-        }
-
         this.compteur++;
     }
 

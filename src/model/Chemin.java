@@ -56,20 +56,20 @@ public class Chemin {
 
         if (usineSource != null && usineDestination != null) {
             // Point de départ
-            double x1 = usineSource.getPosition().getX();
-            double y1 = usineSource.getPosition().getY();
+            double xUsineSource = usineSource.getPosition().getX();
+            double yUsineSource = usineSource.getPosition().getY();
             // Point de destination
-            double x2 = usineDestination.getPosition().getX();
-            double y2 = usineDestination.getPosition().getY();
+            double xUsineDestination = usineDestination.getPosition().getX();
+            double yUsineDestination = usineDestination.getPosition().getY();
 
-            double m = (y2-y1)/(x2-x1); // Pente de la fonction affine
-            double b = y2 - m * x2; // Ordonnée à l'origine
+            double m = (yUsineDestination-yUsineSource)/(xUsineDestination-xUsineSource); // Pente de la fonction affine
+            double b = yUsineDestination - m * xUsineDestination; // Ordonnée à l'origine
 
             // Déplacer les composants à la destination
             for (Composant composant : this.composants) {
                 // Point du composant
                 double x = composant.getPosition().getX(); // La position x dans laquelle j'aimerais que mon composant se trouve
-                if (x2 > x1) {
+                if (xUsineDestination > xUsineSource) {
                     x += vitesse.getX();
                 } else {
                     x -= vitesse.getX();
@@ -82,64 +82,38 @@ public class Chemin {
 
             // Faire diparaître les composants lorsqu'ils sont arrivés à destination
             for (int index=0; index < this.composants.size(); index++) { // On parcoure chacun des composants
-                boolean hasReachedX = false;
-                boolean hasReachedY = false;
+                boolean hasReachedDestinationX = false;
+                boolean hasReachedDestinationY = false;
 
-                if (this.composants.get(index).getPosition().getY() != x2) {
-                    if (x1 > x2) {
-                        hasReachedX = this.composants.get(index).getPosition().getX() <= x2;
+                if (this.composants.get(index).getPosition().getY() != xUsineDestination) {
+                    if (xUsineSource > xUsineDestination) {
+                        hasReachedDestinationX = this.composants.get(index).getPosition().getX() <= xUsineDestination;
                     }
-
-                    if (x1 < x2) {
-                        hasReachedX = this.composants.get(index).getPosition().getX() >= x2;
-                    }
-                } else {
-                    hasReachedX = true;
-                }
-
-                if (this.composants.get(index).getPosition().getY() != y2) {
-                    if (y1 > y2) {
-                        hasReachedY = this.composants.get(index).getPosition().getY() <= y2;
-                    }
-
-                    if (y1 < y2) {
-                        hasReachedY = this.composants.get(index).getPosition().getY() >= y2;
+                    if (xUsineSource < xUsineDestination) {
+                        hasReachedDestinationX = this.composants.get(index).getPosition().getX() >= xUsineDestination;
                     }
                 } else {
-                    hasReachedY = true;
+                    hasReachedDestinationX = true;
                 }
 
-                if (hasReachedX && hasReachedY) {
-                    switch (composants.get(index).getTypeComposant()) {
-                        case AILE -> {
-                            for(Entree entree : usineDestination.getEntrees()) {
-                                if (entree.getType().equals(TypeComposant.AILE)) {
-                                    entree.incrementCompteur();
-                                }
-                            }
-                        }
-                        case AVION -> {
-                            for(Entree entree : usineDestination.getEntrees()) {
-                                if (entree.getType().equals(TypeComposant.AVION)) {
-                                    entree.incrementCompteur();
-                                }
-                            }
-                        }
-                        case METAL -> {
-                            for(Entree entree : usineDestination.getEntrees()) {
-                                if (entree.getType().equals(TypeComposant.METAL)) {
-                                    entree.incrementCompteur();
-                                }
-                            }
-                        }
-                        case MOTEUR -> {
-                            for(Entree entree : usineDestination.getEntrees()) {
-                                if (entree.getType().equals(TypeComposant.MOTEUR)) {
-                                    entree.incrementCompteur();
-                                }
-                            }
+                if (this.composants.get(index).getPosition().getY() != yUsineDestination) {
+                    if (yUsineSource > yUsineDestination) {
+                        hasReachedDestinationY = this.composants.get(index).getPosition().getY() <= yUsineDestination;
+                    }
+                    if (yUsineSource < yUsineDestination) {
+                        hasReachedDestinationY = this.composants.get(index).getPosition().getY() >= yUsineDestination;
+                    }
+                } else {
+                    hasReachedDestinationY = true;
+                }
+
+                if (hasReachedDestinationX && hasReachedDestinationY) {
+                    for(Entree entree : usineDestination.getEntrees()) {
+                        if (entree.getType() == this.composants.get(index).getTypeComposant()) {
+                            entree.incrementCompteur();
                         }
                     }
+
                     this.composants.remove(this.composants.get(index));
                 }
             }
