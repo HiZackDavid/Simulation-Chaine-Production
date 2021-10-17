@@ -125,6 +125,17 @@ public abstract class UsineProduction extends Usine implements Observateur {
 
     public void incrementerProductionProgress() {
         this.productionProgress++;
+
+        if (this.productionProgress == getIntervalleProduction()) {
+            setIcone(Configuration.getIcone(getType(), TypeIcone.PLEIN));
+        } else if (this.productionProgress >= getIntervalleProduction() * 2/3) {
+            setIcone(Configuration.getIcone(getType(), TypeIcone.DEUX_TIERS));
+        } else if (this.productionProgress >= getIntervalleProduction() * 1/3) {
+            setIcone(Configuration.getIcone(getType(), TypeIcone.UN_TIERS));
+        } else {
+            setIcone(Configuration.getIcone(getType(), TypeIcone.VIDE));
+        }
+
         System.out.println(this.productionProgress);
     }
 

@@ -127,6 +127,30 @@ public class Configuration {
         return icone;
     }
 
+    public static Icone getIcone(TypeUsine usineType, TypeIcone iconeType) {
+        XMLReader xmlReader = new XMLReader();
+        Icone icone = null;
+
+        // Récupérer les usines dans la metadonnee
+        for (Node usineNode : xmlReader.getNodesFromSource("metadonnees", "usine")) {
+            String metadataUsineType = xmlReader.getNodeAttributes(usineNode).get("type");
+            if (metadataUsineType.equals(TypeUsine.getType(usineType))) {
+                // Récupérer l'icône correspondant au type d'icône cherché
+                for (Node iconeNode : xmlReader.getNodesFromSource(usineNode, "icone")) {
+                    String metadataIconeType = xmlReader.getNodeAttributes(iconeNode).get("type");
+
+                    if (metadataIconeType.equals(TypeIcone.getType(iconeType))) {
+                        String path = xmlReader.getNodeAttributes(iconeNode).get("path");
+
+                        icone = new Icone(iconeType, path);
+                    }
+                }
+            }
+        }
+
+        return icone;
+    }
+
     /**
      * Returns the list of "Entree" according to a type of "Usine".
      *
