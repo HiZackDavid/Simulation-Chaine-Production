@@ -67,23 +67,20 @@ public class PanneauPrincipal extends JPanel {
 		for (Usine usine : configuration.getUsines()) {
 			// Si c'est une usine de production
 			if (usine instanceof UsineProduction usineProduction) {
-				// On ajoute les composants dans le chemin
-				for (Chemin chemin : usine.getChemins()) {
-					if (usineProduction.canProduce() && chemin.getComposants().size() < 1) {
-						chemin.addComposant(usineProduction.produce());
-					}
+				// Produire les composants
+				if (usineProduction.canProduce() && usineProduction.getComposants().size() < 1) {
+					usineProduction.addComponent(usineProduction.produce());
 				}
 
-				for (Chemin chemin : usine.getChemins()) {
-					// Afficher composants
-					for (Composant composant : chemin.getComposants()) {
-						String iconPath = "src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png";
-						// Dessiner Icones
-						showIcon(g, iconPath, composant.getPosition());
-					}
-
-					chemin.moveComposants(configuration, VITESSE);
+				// Afficher composants
+				for (Composant composant : usineProduction.getComposants()) {
+					String iconPath = "src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png";
+					// Dessiner Icones
+					showIcon(g, iconPath, composant.getPosition());
 				}
+
+				// Déplacer les composants
+				usineProduction.moveComposants(configuration, VITESSE);
 			}
 		}
 	}

@@ -10,6 +10,17 @@ public class UsineMoteur extends UsineProduction{
 
     @Override
     public Composant produce() {
-        return new Composant(TypeComposant.MOTEUR, new Point(getPosition().x, getPosition().y));
+        Composant composant = new Composant(TypeComposant.MOTEUR, new Point(getPosition().x, getPosition().y));
+
+        for (int index = 0; index < getEntrees().size(); index++) {
+            getEntrees().get(index).resetCompteur();
+        }
+
+        return composant;
+    }
+
+    @Override
+    public void update() {
+
     }
 }

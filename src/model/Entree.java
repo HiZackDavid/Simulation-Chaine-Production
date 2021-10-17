@@ -30,4 +30,8 @@ public class Entree {
     public boolean hasReachedLimit() {
         return (compteur == limite);
     }
+
+    public int getLimite() {
+        return limite;
+    }
 }
