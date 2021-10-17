@@ -11,7 +11,7 @@ import java.io.Serial;
 public class PanneauPrincipal extends JPanel {
 	@Serial
 	private static final long serialVersionUID = 1L;
-	public static final Point VITESSE = new Point(10,10);
+	public static final Point VITESSE = new Point(1,1);
 	private final Configuration configuration;
 
 	public PanneauPrincipal() {
@@ -79,7 +79,7 @@ public class PanneauPrincipal extends JPanel {
 					showIcon(g, iconPath, composant.getPosition());
 				}
 
-				// Déplacer les composants
+				// DÃ©placer les composants
 				usineProduction.moveComposants(configuration, VITESSE);
 			}
 		}
