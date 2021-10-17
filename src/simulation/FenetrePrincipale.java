@@ -1,5 +1,8 @@
 package simulation;
 
+import controller.Configuration;
+import model.UsineProduction;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
@@ -12,9 +15,11 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	private static final long serialVersionUID = 1L;
 	private static final String TITRE_FENETRE = "Laboratoire 1 : LOG121 - Simulation";
 	private static final Dimension DIMENSION = new Dimension(700, 700);
+	private Configuration configuration;
 
 	public FenetrePrincipale() {
-		PanneauPrincipal panneauPrincipal = new PanneauPrincipal();
+		configuration = new Configuration();
+		PanneauPrincipal panneauPrincipal = new PanneauPrincipal(configuration);
 		MenuFenetre menuFenetre = new MenuFenetre();
 		add(panneauPrincipal);
 		add(menuFenetre, BorderLayout.NORTH);
@@ -34,6 +39,13 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("TEST")) {
 			repaint();
+			for (int index = 0; index < configuration.getUsines().size(); index++) {
+				if (configuration.getUsines().get(index) instanceof UsineProduction usineProduction) {
+					if (usineProduction.canProduce()) {
+						usineProduction.incrementerProductionProgress();
+					}
+				}
+			}
 			System.out.println(evt.getNewValue());
 		}
 	}

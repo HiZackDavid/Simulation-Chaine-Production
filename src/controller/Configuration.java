@@ -54,7 +54,9 @@ public class Configuration {
             for (Node usineMetadata : this.xmlReader.getNodesFromSource("metadonnees", "usine")) {
                 entrees = getEntrees(type);
                 sorties = getSorties(type);
-                intervalle = getIntervalle(usineMetadata);
+                if (type == TypeUsine.getType(this.xmlReader.getNodeAttributes(usineMetadata).get("type"))) {
+                    intervalle = getIntervalle(usineMetadata);
+                }
             }
 
             // Instancier des Usines selon leur type

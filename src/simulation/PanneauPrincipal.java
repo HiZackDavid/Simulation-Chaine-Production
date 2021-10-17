@@ -14,8 +14,8 @@ public class PanneauPrincipal extends JPanel {
 	public static final Point VITESSE = new Point(1,1);
 	private final Configuration configuration;
 
-	public PanneauPrincipal() {
-		configuration = new Configuration();
+	public PanneauPrincipal(Configuration configuration) {
+		this.configuration = configuration;
 	}
 
 	@Override
@@ -68,8 +68,11 @@ public class PanneauPrincipal extends JPanel {
 			// Si c'est une usine de production
 			if (usine instanceof UsineProduction usineProduction) {
 				// Produire les composants
-				if (usineProduction.canProduce() && usineProduction.getComposants().size() < 1) {
-					usineProduction.addComponent(usineProduction.produce());
+				if (usineProduction.canProduce()) {
+					if (usineProduction.getProductionProgress() > usineProduction.getIntervalleProduction()) {
+						usineProduction.addComponent(usineProduction.produce());
+						usineProduction.resetProductionProgress();
+					}
 				}
 
 				// Afficher composants
