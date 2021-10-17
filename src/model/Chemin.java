@@ -110,6 +110,36 @@ public class Chemin {
                 }
 
                 if (hasReachedX && hasReachedY) {
+                    switch (composants.get(index).getTypeComposant()) {
+                        case AILE -> {
+                            for(Entree entree : usineDestination.getEntrees()) {
+                                if (entree.getType().equals(TypeComposant.AILE)) {
+                                    entree.incrementCompteur();
+                                }
+                            }
+                        }
+                        case AVION -> {
+                            for(Entree entree : usineDestination.getEntrees()) {
+                                if (entree.getType().equals(TypeComposant.AVION)) {
+                                    entree.incrementCompteur();
+                                }
+                            }
+                        }
+                        case METAL -> {
+                            for(Entree entree : usineDestination.getEntrees()) {
+                                if (entree.getType().equals(TypeComposant.METAL)) {
+                                    entree.incrementCompteur();
+                                }
+                            }
+                        }
+                        case MOTEUR -> {
+                            for(Entree entree : usineDestination.getEntrees()) {
+                                if (entree.getType().equals(TypeComposant.MOTEUR)) {
+                                    entree.incrementCompteur();
+                                }
+                            }
+                        }
+                    }
                     this.composants.remove(this.composants.get(index));
                 }
             }

@@ -19,16 +19,16 @@ public class Entree {
         this.type = type;
     }
 
-    public int getLimite() {
-        return limite;
-    }
-
-    public void setLimite(int limite) {
-        this.limite = limite;
-    }
-
     public void incrementCompteur() {
+        if (compteur == limite) {
+            compteur = 0;
+        }
+
         this.compteur++;
+    }
+
+    public void resetCompteur() {
+        this.compteur = 0;
     }
 
     public boolean hasReachedLimit() {

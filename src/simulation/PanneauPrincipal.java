@@ -11,7 +11,7 @@ import java.io.Serial;
 public class PanneauPrincipal extends JPanel {
 	@Serial
 	private static final long serialVersionUID = 1L;
-	public static final Point VITESSE = new Point(10,1);
+	public static final Point VITESSE = new Point(20,1);
 	private final Configuration configuration;
 
 	public PanneauPrincipal() {
@@ -69,11 +69,12 @@ public class PanneauPrincipal extends JPanel {
 			if (usine instanceof UsineProduction usineProduction) {
 				// On ajoute les composants dans le chemin
 				for (Chemin chemin : usine.getChemins()) {
-					//if (usineProduction.canProduce()) {
-					if (chemin.getComposants().size() < 1) {
+					if (usineProduction instanceof UsineAssemblage) {
+						System.out.println("UsineProduction");
+					}
+					if (usineProduction.canProduce()) {
 						chemin.addComposant(usineProduction.produce());
 					}
-					//}
 				}
 
 				for (Chemin chemin : usine.getChemins()) {
