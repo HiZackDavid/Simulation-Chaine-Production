@@ -1,12 +1,12 @@
 package model;
 
-import controller.Observateur;
-import controller.Sujet;
+import Patrons.Observateur.Observateur;
+import Patrons.Observateur.Observable;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Entrepot extends Usine implements Sujet {
+public class Entrepot extends Usine implements Observable {
     private ArrayList<Observateur> observateurs;
 
     public Entrepot(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins, ArrayList<Entree> entrees, ArrayList<Sortie> sorties) {

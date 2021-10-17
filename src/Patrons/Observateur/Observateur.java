@@ -1,4 +1,4 @@
-package controller;
+package Patrons.Observateur;
 
 public interface Observateur {
     void update();

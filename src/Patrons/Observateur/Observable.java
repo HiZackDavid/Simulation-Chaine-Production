@@ -1,6 +1,6 @@
-package controller;
+package Patrons.Observateur;
 
-public interface Sujet {
+public interface Observable {
     void ajouterObservateur(Observateur observateur);
     void retirerObservateur(Observateur observateur);
     void notifierObservateurs();

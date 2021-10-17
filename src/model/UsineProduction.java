@@ -1,7 +1,7 @@
 package model;
 
 import controller.Configuration;
-import controller.Observateur;
+import Patrons.Observateur.Observateur;
 
 import java.awt.Point;
 import java.util.ArrayList;
