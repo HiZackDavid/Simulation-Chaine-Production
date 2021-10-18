@@ -1,20 +1,19 @@
 package model;
 
 import controller.Configuration;
-import Patrons.Observateur.Observateur;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 public abstract class UsineProduction extends Usine implements Observateur {
     private int intervalleProduction;
-    private ArrayList<Composant> composants;
+    private ArrayList<Component> components;
     private int productionProgress;
 
     public UsineProduction(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins, ArrayList<Entree> entrees, ArrayList<Sortie> sorties, int intervalleProduction) {
         super(id, type, icone, position, chemins, entrees, sorties);
         this.intervalleProduction = intervalleProduction;
-        this.composants = new ArrayList<>();
+        this.components = new ArrayList<>();
         this.productionProgress = 0;
     }
 
@@ -42,11 +41,11 @@ public abstract class UsineProduction extends Usine implements Observateur {
         return canProduce;
     }
 
-    public void addComponent(Composant composant) {
-        this.composants.add(composant);
+    public void addComponent(Component component) {
+        this.components.add(component);
     }
 
-    public void moveComposants(Configuration configuration, Point vitesse) {
+    public void moveComponents(Configuration configuration, Point vitesse) {
         for (Chemin chemin : this.getChemins()) {
             if (getId() == chemin.getSource()) {
                 for (Usine usine : configuration.getUsines()) {
@@ -62,9 +61,9 @@ public abstract class UsineProduction extends Usine implements Observateur {
                         double b = yUsineDestination - m * xUsineDestination; // Ordonnée à l'origine
 
                         // Déplacer les composants à la destination
-                        for (Composant composant : this.composants) {
+                        for (Component component : this.components) {
                             // Point du composant
-                            double x = composant.getPosition().getX(); // La position x dans laquelle j'aimerais que mon composant se trouve
+                            double x = component.getPosition().getX(); // La position x dans laquelle j'aimerais que mon composant se trouve
                             if (xUsineDestination > xUsineSource) {
                                 x += vitesse.getX();
                             } else {
@@ -73,31 +72,31 @@ public abstract class UsineProduction extends Usine implements Observateur {
 
                             double y = m * x + b; // F(x)=mx+b
 
-                            composant.getPosition().setLocation(x, y);
+                            component.getPosition().setLocation(x, y);
                         }
 
                         // Faire diparaître les composants lorsqu'ils sont arrivés à destination
-                        for (int index=0; index < this.composants.size(); index++) { // On parcoure chacun des composants
+                        for (int index = 0; index < this.components.size(); index++) { // On parcoure chacun des composants
                             boolean hasReachedDestinationX = false;
                             boolean hasReachedDestinationY = false;
 
-                            if (this.composants.get(index).getPosition().getY() != xUsineDestination) {
+                            if (this.components.get(index).getPosition().getY() != xUsineDestination) {
                                 if (xUsineSource > xUsineDestination) {
-                                    hasReachedDestinationX = this.composants.get(index).getPosition().getX() <= xUsineDestination;
+                                    hasReachedDestinationX = this.components.get(index).getPosition().getX() <= xUsineDestination;
                                 }
                                 if (xUsineSource < xUsineDestination) {
-                                    hasReachedDestinationX = this.composants.get(index).getPosition().getX() >= xUsineDestination;
+                                    hasReachedDestinationX = this.components.get(index).getPosition().getX() >= xUsineDestination;
                                 }
                             } else {
                                 hasReachedDestinationX = true;
                             }
 
-                            if (this.composants.get(index).getPosition().getY() != yUsineDestination) {
+                            if (this.components.get(index).getPosition().getY() != yUsineDestination) {
                                 if (yUsineSource > yUsineDestination) {
-                                    hasReachedDestinationY = this.composants.get(index).getPosition().getY() <= yUsineDestination;
+                                    hasReachedDestinationY = this.components.get(index).getPosition().getY() <= yUsineDestination;
                                 }
                                 if (yUsineSource < yUsineDestination) {
-                                    hasReachedDestinationY = this.composants.get(index).getPosition().getY() >= yUsineDestination;
+                                    hasReachedDestinationY = this.components.get(index).getPosition().getY() >= yUsineDestination;
                                 }
                             } else {
                                 hasReachedDestinationY = true;
@@ -105,12 +104,26 @@ public abstract class UsineProduction extends Usine implements Observateur {
 
                             if (hasReachedDestinationX && hasReachedDestinationY) {
                                 for(Entree entree : usine.getEntrees()) {
-                                    if (entree.getType() == this.composants.get(index).getTypeComposant()) {
+                                    if (entree.getType() == this.components.get(index).getType()) {
                                         entree.incrementCompteur();
                                     }
                                 }
 
-                                this.composants.remove(this.composants.get(index));
+                                if (usine instanceof Entrepot entrepot) {
+                                    boolean hasMaximumCapacity = true;
+
+                                    for (Entree entree : usine.getEntrees()) {
+                                        if (!entree.hasReachedRequiredAmount()) {
+                                            hasMaximumCapacity = false;
+                                        }
+                                    }
+
+                                    if (hasMaximumCapacity) {
+                                        entrepot.notifierObservateurs();
+                                    }
+                                }
+
+                                this.components.remove(this.components.get(index));
                             }
                         }
                     }
@@ -119,8 +132,8 @@ public abstract class UsineProduction extends Usine implements Observateur {
         }
     }
 
-    public ArrayList<Composant> getComposants() {
-        return composants;
+    public ArrayList<Component> getComponents() {
+        return components;
     }
 
     public void incrementerProductionProgress() {
@@ -147,5 +160,5 @@ public abstract class UsineProduction extends Usine implements Observateur {
         this.productionProgress = 0;
     }
 
-    public abstract Composant produce();
+    public abstract Component produce();
 }

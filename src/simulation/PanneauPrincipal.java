@@ -3,6 +3,7 @@ package simulation;
 import controller.Configuration;
 import controller.XMLReader;
 import model.*;
+import model.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,14 +24,14 @@ public class PanneauPrincipal extends JPanel {
 		super.paint(g);
 
 		if (!XMLReader.FILE_PATH.isEmpty()) {
-			drawChemins(g, configuration);
-			drawUsines(g, configuration);
-			drawComponents(g, configuration);
+			drawChemins(g);
+			drawUsines(g);
+			drawComponents(g);
 		}
 	}
 
-	private void drawUsines(Graphics g, Configuration configuration) {
-		for (Usine usine : configuration.getUsines()) {
+	private void drawUsines(Graphics g) {
+		for (Usine usine : this.configuration.getUsines()) {
 			String iconPath = usine.getIcone().getPath();
 
 			// Dessiner Icones
@@ -38,15 +39,15 @@ public class PanneauPrincipal extends JPanel {
 		}
 	}
 
-	private void drawChemins(Graphics g, Configuration configuration) {
-		for (Usine usine : configuration.getUsines()) {
+	private void drawChemins(Graphics g) {
+		for (Usine usine : this.configuration.getUsines()) {
 			int x = usine.getPosition().x;
 			int y = usine.getPosition().y;
 
 			for (Chemin chemin : usine.getChemins()) {
 				Usine destination = null;
 
-				for (Usine usineDestination : configuration.getUsines()) {
+				for (Usine usineDestination : this.configuration.getUsines()) {
 					if (usineDestination.getId() == chemin.getDestination()) {
 						destination = usineDestination;
 					}
@@ -62,9 +63,9 @@ public class PanneauPrincipal extends JPanel {
 		}
 	}
 
-	private void drawComponents(Graphics g, Configuration configuration) {
+	private void drawComponents(Graphics g) {
 		// Pour toutes les usines
-		for (Usine usine : configuration.getUsines()) {
+		for (Usine usine : this.configuration.getUsines()) {
 			// Si c'est une usine de production
 			if (usine instanceof UsineProduction usineProduction) {
 				// Produire les composants
@@ -76,14 +77,14 @@ public class PanneauPrincipal extends JPanel {
 				}
 
 				// Afficher composants
-				for (Composant composant : usineProduction.getComposants()) {
-					String iconPath = "src/ressources/" + TypeComposant.getType(composant.getTypeComposant()) + ".png";
+				for (Component component : usineProduction.getComponents()) {
+					String iconPath = "src/ressources/" + TypeComposant.getType(component.getType()) + ".png";
 					// Dessiner Icones
-					showIcon(g, iconPath, composant.getPosition());
+					showIcon(g, iconPath, component.getPosition());
 				}
 
 				// Déplacer les composants
-				usineProduction.moveComposants(configuration, VITESSE);
+				usineProduction.moveComponents(this.configuration, VITESSE);
 			}
 		}
 	}

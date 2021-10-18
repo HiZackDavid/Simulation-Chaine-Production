@@ -1,4 +1,4 @@
-package Patrons.Observateur;
+package model;
 
 public interface Observable {
     void ajouterObservateur(Observateur observateur);

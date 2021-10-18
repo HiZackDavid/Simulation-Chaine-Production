@@ -1,8 +1,5 @@
 package model;
 
-import Patrons.Observateur.Observateur;
-import Patrons.Observateur.Observable;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -12,14 +9,6 @@ public class Entrepot extends Usine implements Observable {
     public Entrepot(int id, TypeUsine type, Icone icone, Point position, ArrayList<Chemin> chemins, ArrayList<Entree> entrees, ArrayList<Sortie> sorties) {
         super(id, type, icone, position, chemins, entrees, sorties);
         this.observateurs = new ArrayList<>();
-    }
-
-    public void incrementerQuantite() {
-        for (Entree entree : getEntrees()) {
-            if (entree.hasReachedRequiredAmount()) {
-                notifierObservateurs();
-            }
-        }
     }
 
     @Override
